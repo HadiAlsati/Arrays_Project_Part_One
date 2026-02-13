@@ -3,12 +3,14 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+
 public class Main {
     public static void main(String[] args) {
         String fileData = "";
         try {
             File f = new File("src/data");
             Scanner s = new Scanner(f);
+
 
             while (s.hasNextLine()) {
                 String line = s.nextLine();
@@ -41,6 +43,7 @@ public class Main {
         int indexTwo = 12;
         int counterLines = 0;
         for (String line : lines) {
+
 
             counterLines++;
         }
@@ -107,9 +110,7 @@ public class Main {
                     numCards[indexTwo]++;
                     allCards[i] = "2";
                 }
-
             }
-
             boolean classified = false;
             for (int i = 0; i < numCards.length; i++)
             {
@@ -138,6 +139,7 @@ public class Main {
                     storeHands[counterLines - (constantCounterLines)] = new Hand(3, (bidValue), allCards, 1);
                     counterLines++;
 
+
                 } else if (numTriples == 1 && numPairs == 0) {
                     numThreeKind++;
                     storeHands[counterLines - (constantCounterLines)] = new Hand(4, (bidValue), allCards, 1);
@@ -157,6 +159,26 @@ public class Main {
                 }
             }
         }
+        int totalWinnings = 0;
+
+        for (int i = 0; i < storeHands.length; i++) {
+
+            int rank = 1;
+
+            for (int j = 0; j < storeHands.length; j++) {
+
+                if (i != j) {
+
+                    if (storeHands[i].compareHands(storeHands[j]) > 0) {
+                        rank++;
+                    }
+                }
+            }
+
+            storeHands[i].rank = rank;
+            totalWinnings += rank * storeHands[i].getBidValue();
+        }
+
 
         System.out.println("Number of five of a kind hands: " + numFiveKind);
         System.out.println("Number of full house hands: " + numFullHouses);
@@ -165,6 +187,11 @@ public class Main {
         System.out.println("Number of two pair hands: " + numTwoPair);
         System.out.println("Number of one pair hands: " + numOnePair);
         System.out.println("Number of high card hands: " + (numHighCard));
+        System.out.println("Total Bid Value: " + totalWinnings);
+
 
     }
 }
+
+
+
